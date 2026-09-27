@@ -1,19 +1,20 @@
 package com.example._104896_practica3;
 
+import com.example._104896_practica3.Controlador.Controlador;
+import com.example._104896_practica3.Vista.PantallaPrincipal;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class HelloApplication extends Application {
+
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
+    public void start(Stage stage){
+        Controlador controlador=new Controlador();
+        PantallaPrincipal pantallaPrincipal=new PantallaPrincipal(controlador);
+
+        stage.setScene(new Scene(pantallaPrincipal.getScrollPane(),1500,843));
         stage.show();
     }
+
 }

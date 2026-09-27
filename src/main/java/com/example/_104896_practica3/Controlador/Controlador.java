@@ -37,4 +37,8 @@ public class Controlador {
     public ArrayList<Estacion> getEstaciones(){
         return game.getEstaciones();
     }
+
+    public int getTurno(){
+        return game.getTurno();
+    }
 }

@@ -7,8 +7,8 @@ import javafx.scene.image.ImageView;
 
 public class DadoImage extends Label {
 
-    private double width = 80;
-    private double height = 80;
+    private double width = 50;
+    private double height = 50;
     private Dado dado;
     private ImageView view;
 
