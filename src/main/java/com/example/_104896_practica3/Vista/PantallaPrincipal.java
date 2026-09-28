@@ -41,7 +41,7 @@ public class PantallaPrincipal {
         background.fitWidthProperty().bind(anchorPane.widthProperty());
         background.fitHeightProperty().bind(anchorPane.heightProperty());
 
-        boton=new ImageButton("/recursos/btnRoll.png","/recursos/btnRoll.png",370,200);
+        boton=new ImageButton("/recursos/btnRoll.png","/recursos/btnRoll.png",170,100);
         boton.setOnAction(e->{
             if (origenSeleccionado!=-1){
                 estaciones.get(origenSeleccionado).setStyle("");
@@ -63,7 +63,7 @@ public class PantallaPrincipal {
 
         anchorPane.getChildren().addAll(background,boton,lbTurno,lbSalidos,lbEnSistema);
         dibujarEstaciones();
-        posicionarEnPane(boton,1000/RESX,800/RESGAEL);
+        posicionarEnPane(boton,840/RESX,800/RESGAEL);
         posicionarEnPane(lbTurno,850/RESX,50/RESGAEL);
         posicionarEnPane(lbSalidos,850/RESX,90/RESGAEL);
         posicionarEnPane(lbEnSistema,850/RESX,130/RESGAEL);
@@ -74,30 +74,37 @@ public class PantallaPrincipal {
         ArrayList<Estacion> estacionesModelo=controlador.getEstaciones();
         for (int i=0;i<estacionesModelo.size();i++){
             Estacion estacion=estacionesModelo.get(i);
-            Orientacion orientacion;
-            if (i<4){
-                orientacion=Orientacion.HACIA_ABAJO;
-            } else if (i<6){
-                orientacion=Orientacion.HACIA_LA_DERECHA;
-            } else {
-                orientacion=Orientacion.HACIA_ARRIBA;
-            }
-            EstacionView estacionView=new EstacionView(i+1,estacion.getTamanoFila(),estacion.getDados(),orientacion);
+            EstacionView estacionView=new EstacionView(i+1,estacion.getTamanoFila(),estacion.getDados(),Orientacion.HACIA_ABAJO);
             int indiceFinal=i;
             estacionView.setOnMouseClicked(e->seleccionarEstacion(indiceFinal));
             estaciones.add(estacionView);
             anchorPane.getChildren().add(estacionView);
         }
-        posicionarEnPane(estaciones.get(0),100/RESX,100/RESGAEL);
-        posicionarEnPane(estaciones.get(1),300/RESX,100/RESGAEL);
-        posicionarEnPane(estaciones.get(2),500/RESX,100/RESGAEL);
-        posicionarEnPane(estaciones.get(3),700/RESX,100/RESGAEL);
-        posicionarEnPane(estaciones.get(4),900/RESX,100/RESGAEL);
-        posicionarEnPane(estaciones.get(5),90,60);
-        posicionarEnPane(estaciones.get(6),70,90);
-        posicionarEnPane(estaciones.get(7),50,90);
-        posicionarEnPane(estaciones.get(8),30,90);
-        posicionarEnPane(estaciones.get(9),10,90);
+
+        posicionarEnPane(estaciones.get(0),20/RESX,250/RESGAEL);
+        posicionarEnPane(estaciones.get(1),200/RESX,250/RESGAEL);
+        posicionarEnPane(estaciones.get(2),380/RESX,250/RESGAEL);
+        posicionarEnPane(estaciones.get(3),560/RESX,250/RESGAEL);
+        posicionarEnPane(estaciones.get(4),740/RESX,250/RESGAEL);
+        posicionarEnPane(estaciones.get(5),920/RESX,250/RESGAEL);
+        posicionarEnPane(estaciones.get(6),1100/RESX,250/RESGAEL);
+        posicionarEnPane(estaciones.get(7),1280/RESX,250/RESGAEL);
+        posicionarEnPane(estaciones.get(8),1460/RESX,250/RESGAEL);
+        posicionarEnPane(estaciones.get(9),1640/RESX,250/RESGAEL);
+
+        for (int i=1;i<estaciones.size();i++){
+            anchorPane.getChildren().add(estaciones.get(i).getColaView());
+        }
+
+        posicionarEnPane(estaciones.get(1).getColaView(),100/RESX,500/RESGAEL);
+        posicionarEnPane(estaciones.get(2).getColaView(),280/RESX,500/RESGAEL);
+        posicionarEnPane(estaciones.get(3).getColaView(),460/RESX,500/RESGAEL);
+        posicionarEnPane(estaciones.get(4).getColaView(),640/RESX,500/RESGAEL);
+        posicionarEnPane(estaciones.get(5).getColaView(),820/RESX,500/RESGAEL);
+        posicionarEnPane(estaciones.get(6).getColaView(),1000/RESX,500/RESGAEL);
+        posicionarEnPane(estaciones.get(7).getColaView(),1180/RESX,500/RESGAEL);
+        posicionarEnPane(estaciones.get(8).getColaView(),1360/RESX,500/RESGAEL);
+        posicionarEnPane(estaciones.get(9).getColaView(),1540/RESX,500/RESGAEL);
     }
 
     private void seleccionarEstacion(int indice){

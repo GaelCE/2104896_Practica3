@@ -7,8 +7,8 @@ import javafx.scene.image.ImageView;
 
 public class Cliente extends Label {
 
-    private double width = 20;
-    private double height = 20;
+    private double width = 15;
+    private double height = 15;
     private ImageView view;
 
     public Cliente() {

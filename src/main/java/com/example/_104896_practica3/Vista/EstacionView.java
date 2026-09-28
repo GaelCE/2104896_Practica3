@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class EstacionView extends VBox{
     private Cara cara;
     private ColaView colaView;
-    private HBox HBdados;
+    private VBox VBdados;
     private Label emoji;
     private Orientacion orientacion;
     private ArrayList<DadoImage> dadosImage;
@@ -18,7 +18,7 @@ public class EstacionView extends VBox{
         this.orientacion=orientacion;
         this.cara=new Cara(seleccionCara);
         colaView=new ColaView(clientes,orientacion);
-        HBdados=new HBox();
+        VBdados=new VBox();
         emoji=new Label(cara.getEmoji());
         dadosImage=crearDadosImage(dados);
         dibujarEstacionView(clientes);
@@ -45,37 +45,49 @@ public class EstacionView extends VBox{
 
     public void actualizarCantidadDados(ArrayList<Dado> dados){
         dadosImage=crearDadosImage(dados);
-        HBdados.getChildren().clear();
-        for (DadoImage dadoImage : dadosImage){
-            HBdados.getChildren().add(dadoImage);
+        dibujarDados();
+    }
+
+    private void dibujarDados(){
+        VBdados.getChildren().clear();
+        int filas=dadosImage.size()/2;
+        for (int i=0;i<filas;i++){
+            HBox hBox=new HBox();
+            hBox.getChildren().add(dadosImage.get(i*2));
+            hBox.getChildren().add(dadosImage.get(i*2+1));
+            VBdados.getChildren().add(hBox);
+        }
+        int residuo=dadosImage.size()%2;
+        if (residuo>0){
+            HBox hBox=new HBox();
+            hBox.getChildren().add(dadosImage.get(dadosImage.size()-1));
+            VBdados.getChildren().add(hBox);
         }
     }
 
     public void dibujarEstacionView(int cantidad){
         getChildren().clear();
         actualizarCola(cantidad);
-        HBdados.getChildren().clear();
-        for (DadoImage dadoImage : dadosImage){
-            HBdados.getChildren().add(dadoImage);
-        }
+        dibujarDados();
         switch (orientacion){
             case HACIA_ABAJO:
                 getChildren().add(emoji);
-                getChildren().add(HBdados);
-                getChildren().add(colaView);
+                getChildren().add(VBdados);
                 break;
             case HACIA_ARRIBA:
-                getChildren().add(colaView);
-                getChildren().add(HBdados);
+                getChildren().add(VBdados);
                 getChildren().add(emoji);
                 break;
             case HACIA_LA_DERECHA:
                 HBox fila=new HBox();
                 fila.getChildren().add(emoji);
-                fila.getChildren().add(HBdados);
-                fila.getChildren().add(colaView);
+                fila.getChildren().add(VBdados);
                 getChildren().add(fila);
                 break;
         }
+    }
+
+    public ColaView getColaView(){
+        return colaView;
     }
 }
