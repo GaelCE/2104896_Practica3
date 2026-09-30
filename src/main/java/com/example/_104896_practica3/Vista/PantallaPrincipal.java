@@ -117,16 +117,18 @@ public class PantallaPrincipal {
     }
 
     private void seleccionarEstacion(int indice){
-        if (origenSeleccionado==-1){
-            origenSeleccionado=indice;
-            estaciones.get(indice).setStyle("-fx-border-color:red;-fx-border-width:3;");
-        } else {
-            controlador.moverDados(origenSeleccionado,indice);
-            estaciones.get(origenSeleccionado).setStyle("");
-            ArrayList<Estacion> estacionesModelo=controlador.getEstaciones();
-            estaciones.get(origenSeleccionado).actualizarCantidadDados(estacionesModelo.get(origenSeleccionado).getDados());
-            estaciones.get(indice).actualizarCantidadDados(estacionesModelo.get(indice).getDados());
-            origenSeleccionado=-1;
+        if(controlador.getTurno()<20){
+            if (origenSeleccionado == -1) {
+                origenSeleccionado = indice;
+                estaciones.get(indice).setStyle("-fx-border-color:red;-fx-border-width:3;");
+            } else {
+                controlador.moverDados(origenSeleccionado, indice);
+                estaciones.get(origenSeleccionado).setStyle("");
+                ArrayList<Estacion> estacionesModelo = controlador.getEstaciones();
+                estaciones.get(origenSeleccionado).actualizarCantidadDados(estacionesModelo.get(origenSeleccionado).getDados());
+                estaciones.get(indice).actualizarCantidadDados(estacionesModelo.get(indice).getDados());
+                origenSeleccionado = -1;
+            }
         }
     }
 
@@ -141,6 +143,9 @@ public class PantallaPrincipal {
         lbTurno.setText(""+controlador.getTurno());
         lbSalidos.setText(""+controlador.getSalidos());
         lbEnSistema.setText(""+controlador.getEnSistema());
+        if (controlador.getTurno()==20){
+            anchorPane.getChildren().remove(boton);
+        }
     }
 
     private void posicionarEnPane(Node nodo,double porcentajeX,double porcentajeY){

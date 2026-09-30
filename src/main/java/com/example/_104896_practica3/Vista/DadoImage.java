@@ -7,6 +7,12 @@ import javafx.scene.image.ImageView;
 
 public class DadoImage extends Label {
 
+    private static final Image[] IMAGENES=new Image[6];
+    static{
+        for(int i=0;i<6;i++){
+            IMAGENES[i]=new Image(DadoImage.class.getResourceAsStream("/dados/dado"+(i+1)+".png"));
+        }
+    }
     private double width = 50;
     private double height = 50;
     private Dado dado;
@@ -17,17 +23,15 @@ public class DadoImage extends Label {
         crearImagenDado();
     }
 
-    private void crearImagenDado() {
-        Image imagen = new Image(getClass().getResourceAsStream(obtenerRuta()));
-        view = new ImageView(imagen);
+    private void crearImagenDado(){
+        view=new ImageView(IMAGENES[dado.getValor()-1]);
         view.setFitWidth(width);
         view.setFitHeight(height);
         setGraphic(view);
     }
 
-    public void actualizar() {
-        String ruta = "/dados/dado" + dado.getValor() + ".png";
-        view.setImage(new Image(getClass().getResourceAsStream(ruta)));
+    public void actualizar(){
+        view.setImage(IMAGENES[dado.getValor()-1]);
     }
 
     public String toString(){
