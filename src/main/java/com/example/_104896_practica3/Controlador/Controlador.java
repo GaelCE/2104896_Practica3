@@ -41,4 +41,13 @@ public class Controlador {
     public int getTurno(){
         return game.getTurno();
     }
+
+    public int getSalidos(){
+        return game.getSalidos();
+    }
+
+    public int getEnSistema(){
+        System.out.println(""+game.getEnSistema());
+        return game.getEnSistema();
+    }
 }

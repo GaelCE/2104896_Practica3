@@ -20,6 +20,7 @@ public class PantallaPrincipal {
     private Label lbTurno;
     private Label lbSalidos;
     private Label lbEnSistema;
+    private ColaView salidos;
     private int origenSeleccionado=-1;
     private static final double RESX=1920.0;
     private static final double RESGAEL=1080.0;
@@ -58,15 +59,18 @@ public class PantallaPrincipal {
         });
 
         lbTurno=new Label("0");
+        lbTurno.setStyle("-fx-font-size:100px;");
         lbSalidos=new Label("0");
+        lbSalidos.setStyle("-fx-font-size:100px;");
         lbEnSistema=new Label("0");
+        lbEnSistema.setStyle("-fx-font-size:100px;");
 
         anchorPane.getChildren().addAll(background,boton,lbTurno,lbSalidos,lbEnSistema);
         dibujarEstaciones();
         posicionarEnPane(boton,840/RESX,800/RESGAEL);
-        posicionarEnPane(lbTurno,850/RESX,50/RESGAEL);
-        posicionarEnPane(lbSalidos,850/RESX,90/RESGAEL);
-        posicionarEnPane(lbEnSistema,850/RESX,130/RESGAEL);
+        posicionarEnPane(lbTurno,20/RESX,50/RESGAEL);
+        posicionarEnPane(lbSalidos,550/RESX,50/RESGAEL);
+        posicionarEnPane(lbEnSistema,1000/RESX,50/RESGAEL);
     }
 
     private void dibujarEstaciones(){
@@ -81,6 +85,9 @@ public class PantallaPrincipal {
             anchorPane.getChildren().add(estacionView);
         }
 
+        salidos=new ColaView(controlador.getSalidos(), Orientacion.HACIA_ABAJO);
+        anchorPane.getChildren().add(salidos);
+
         posicionarEnPane(estaciones.get(0),20/RESX,250/RESGAEL);
         posicionarEnPane(estaciones.get(1),200/RESX,250/RESGAEL);
         posicionarEnPane(estaciones.get(2),380/RESX,250/RESGAEL);
@@ -91,6 +98,7 @@ public class PantallaPrincipal {
         posicionarEnPane(estaciones.get(7),1280/RESX,250/RESGAEL);
         posicionarEnPane(estaciones.get(8),1460/RESX,250/RESGAEL);
         posicionarEnPane(estaciones.get(9),1640/RESX,250/RESGAEL);
+
 
         for (int i=1;i<estaciones.size();i++){
             anchorPane.getChildren().add(estaciones.get(i).getColaView());
@@ -105,6 +113,7 @@ public class PantallaPrincipal {
         posicionarEnPane(estaciones.get(7).getColaView(),1180/RESX,500/RESGAEL);
         posicionarEnPane(estaciones.get(8).getColaView(),1360/RESX,500/RESGAEL);
         posicionarEnPane(estaciones.get(9).getColaView(),1540/RESX,500/RESGAEL);
+        posicionarEnPane(salidos,1720/RESX,500/RESGAEL);
     }
 
     private void seleccionarEstacion(int indice){
@@ -128,7 +137,10 @@ public class PantallaPrincipal {
             estaciones.get(i).actualizarValoresDados();
             estaciones.get(i).dibujarEstacionView(estacion.getTamanoFila());
         }
+        salidos.dibujarCola(controlador.getSalidos());
         lbTurno.setText(""+controlador.getTurno());
+        lbSalidos.setText(""+controlador.getSalidos());
+        lbEnSistema.setText(""+controlador.getEnSistema());
     }
 
     private void posicionarEnPane(Node nodo,double porcentajeX,double porcentajeY){

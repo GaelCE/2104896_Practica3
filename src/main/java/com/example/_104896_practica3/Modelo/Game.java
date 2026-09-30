@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class Game {
     private ArrayList<Estacion> estaciones;
     private int turno;
+    private int salidos;
 
     public Game() {
         estaciones = new ArrayList<>();
@@ -17,6 +18,7 @@ public class Game {
             }
         }
         turno=0;
+        salidos=0;
     }
 
     public void tirarDados(){
@@ -91,6 +93,7 @@ public class Game {
                 salida++;
             }
         }
+        salidos+=salida;
         moved.add(0,salida);
     }
 
@@ -99,6 +102,19 @@ public class Game {
     }
 
     public int getTurno(){
+        System.out.println(""+turno);
         return turno;
+    }
+
+    public int getSalidos(){
+        return salidos;
+    }
+
+    public int getEnSistema(){
+        int enSistema=0;
+        for (Estacion estacion:estaciones){
+            enSistema+=estacion.getTamanoFila();
+        }
+        return enSistema;
     }
 }

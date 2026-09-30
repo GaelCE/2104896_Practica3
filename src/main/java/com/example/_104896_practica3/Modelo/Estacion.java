@@ -12,7 +12,7 @@ public class Estacion {
         dados=new ArrayList<>();
         dados.add(new Dado());
         if (tieneCola){
-            this.colaCircular=new ColaCircular<>(50);
+            this.colaCircular=new ColaCircular<>(150);
         }
     }
 
@@ -45,7 +45,7 @@ public class Estacion {
     }
 
     public int getTamanoFila(){
-        if (colaCircular ==null){
+        if (colaCircular==null){
             return 0;
         } else {
             return colaCircular.getEspaciosOcupados();
