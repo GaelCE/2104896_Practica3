@@ -2,18 +2,22 @@ package com.example._104896_practica3.Vista;
 
 import com.example._104896_practica3.Controlador.Controlador;
 import com.example._104896_practica3.Modelo.Estacion;
+import javafx.animation.TranslateTransition;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Font;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 
 public class PantallaPrincipal {
     private Controlador controlador;
-    private ScrollPane scrollPane;
     private AnchorPane anchorPane;
     private ArrayList<EstacionView> estaciones;
     private ImageButton boton;
@@ -22,16 +26,17 @@ public class PantallaPrincipal {
     private Label lbEnSistema;
     private ColaView salidos;
     private int origenSeleccionado=-1;
+    private HBox barraGraficas;
+    private ImageButton botonAbrirCerrar;
+    private boolean barraAbierta;
     private static final double RESX=1920.0;
     private static final double RESGAEL=1080.0;
 
     public PantallaPrincipal(Controlador controlador){
         this.controlador=controlador;
-        scrollPane=new ScrollPane();
         anchorPane=new AnchorPane();
         estaciones=new ArrayList<>();
         construirPantallaJuego();
-        scrollPane.setContent(anchorPane);
     }
 
     private void construirPantallaJuego(){
@@ -58,19 +63,27 @@ public class PantallaPrincipal {
             actualizarPantalla();
         });
 
-        lbTurno=new Label("0");
-        lbTurno.setStyle("-fx-font-size:100px;");
-        lbSalidos=new Label("0");
-        lbSalidos.setStyle("-fx-font-size:100px;");
-        lbEnSistema=new Label("0");
-        lbEnSistema.setStyle("-fx-font-size:100px;");
+        Font fuente = Font.loadFont(getClass().getResourceAsStream("/fonts/supercell-magic-webfont.ttf"), 30);
+        String estiloTexto = "-fx-text-fill: white; "+"-fx-effect: dropshadow(gaussian, black, 3, 1, 0, 0);";
+        lbTurno=new Label("Turno  0");
+        lbSalidos=new Label("Salidos: 0");
+        lbEnSistema=new Label("En sistema: 0");
+        lbTurno.setFont(fuente);
+        lbSalidos.setFont(fuente);
+        lbEnSistema.setFont(fuente);
+        lbTurno.setStyle(estiloTexto);
+        lbSalidos.setStyle(estiloTexto);
+        lbEnSistema.setStyle(estiloTexto);
 
         anchorPane.getChildren().addAll(background,boton,lbTurno,lbSalidos,lbEnSistema);
         dibujarEstaciones();
-        posicionarEnPane(boton,840/RESX,800/RESGAEL);
-        posicionarEnPane(lbTurno,20/RESX,50/RESGAEL);
-        posicionarEnPane(lbSalidos,550/RESX,50/RESGAEL);
-        posicionarEnPane(lbEnSistema,1000/RESX,50/RESGAEL);
+
+        construirBarraGraficas();
+
+        posicionarEnPane(boton,840/RESX,900/RESGAEL);
+        posicionarEnPane(lbTurno,120/RESX,50/RESGAEL);
+        posicionarEnPane(lbSalidos,1500/RESX,50/RESGAEL);
+        posicionarEnPane(lbEnSistema,750/RESX,50/RESGAEL);
     }
 
     private void dibujarEstaciones(){
@@ -140,9 +153,9 @@ public class PantallaPrincipal {
             estaciones.get(i).dibujarEstacionView(estacion.getTamanoFila());
         }
         salidos.dibujarCola(controlador.getSalidos());
-        lbTurno.setText(""+controlador.getTurno());
-        lbSalidos.setText(""+controlador.getSalidos());
-        lbEnSistema.setText(""+controlador.getEnSistema());
+        lbTurno.setText("Turno "+controlador.getTurno());
+        lbSalidos.setText("Salidos: "+controlador.getSalidos());
+        lbEnSistema.setText("En sistema: "+controlador.getEnSistema());
         if (controlador.getTurno()==20){
             anchorPane.getChildren().remove(boton);
         }
@@ -155,7 +168,59 @@ public class PantallaPrincipal {
         nodo.translateYProperty().bind(anchorPane.heightProperty().multiply(porcentajeY));
     }
 
-    public ScrollPane getScrollPane(){
-        return scrollPane;
+    private void construirBarraGraficas(){
+        barraGraficas=new HBox();
+        barraGraficas.setSpacing(100);
+        barraGraficas.setAlignment(Pos.CENTER);
+        barraGraficas.setPadding(new Insets(0,60,0,60));
+        barraGraficas.prefWidthProperty().bind(anchorPane.widthProperty());
+        barraGraficas.setStyle("-fx-background-color:#2b3a4a; -fx-border-color:#d4af37; -fx-border-width:3;");
+        ImageButton btnActivity=new ImageButton("/recursos/btnActivity.png","/recursos/btnActivity.png",200,200);
+        ImageButton btnThroughput=new ImageButton("/recursos/btnThroughput.png","/recursos/btnThroughput.png",200,200);
+        ImageButton btnEnSistema=new ImageButton("/recursos/btnNumberInSystem.png","/recursos/btnNumberInSystem.png",200,200);
+        ImageButton btnTimeSistema=new ImageButton("/recursos/btnTimeInSystem.png","/recursos/btnTimeInSystem.png",200,200);
+        barraGraficas.getChildren().addAll(btnActivity,btnThroughput,btnEnSistema,btnTimeSistema);
+
+        botonAbrirCerrar=new ImageButton("/recursos/btnFlechaArriba.png","/recursos/btnFlechaArriba.png",60,60);
+        botonAbrirCerrar.setOnAction(e->alternarBarra());
+
+        barraAbierta=false;
+        anchorPane.getChildren().addAll(botonAbrirCerrar,barraGraficas);
+        posicionarEnPane(barraGraficas,0,1075/RESGAEL);
+        posicionarEnPane(botonAbrirCerrar,900/RESX,1020/RESGAEL);
+    }
+
+    private void alternarBarra(){
+        double distancia=barraGraficas.getHeight();
+        System.out.println(""+distancia);
+        double direccion;
+        if (barraAbierta) {
+            direccion = distancia;
+        } else {
+            direccion = -distancia;
+        }
+
+        barraGraficas.translateYProperty().unbind();
+        botonAbrirCerrar.translateYProperty().unbind();
+
+        TranslateTransition transBarra=new TranslateTransition(Duration.millis(300),barraGraficas);
+        transBarra.setByY(direccion);
+
+        TranslateTransition transBoton=new TranslateTransition(Duration.millis(300),botonAbrirCerrar);
+        transBoton.setByY(direccion);
+
+        transBarra.play();
+        transBoton.play();
+
+        if (barraAbierta){
+            botonAbrirCerrar.setImagen("/recursos/btnFlechaArriba.png");
+        } else {
+            botonAbrirCerrar.setImagen("/recursos/btnFlechaAbajo.png");
+        }
+        barraAbierta=!barraAbierta;
+    }
+
+    public AnchorPane getAnchorPane(){
+        return anchorPane;
     }
 }

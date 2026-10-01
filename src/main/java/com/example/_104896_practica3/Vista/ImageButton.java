@@ -29,11 +29,22 @@ public class ImageButton extends Button {
         setGraphic(normal);
         setStyle("-fx-background-color:transparent;-fx-padding:0;");
         setCursor(Cursor.HAND);
-        setOnMouseEntered(e->setGraphic(resaltado));
+        //setOnMouseEntered(e->setGraphic(resaltado));
         setOnMouseExited(e->setGraphic(normal));
     }
 
     public void setImagen(String ruta){
+        Image nuevaImagen=new Image(getClass().getResourceAsStream(ruta));
+        normal=new ImageView(nuevaImagen);
+        normal.setFitWidth(ancho);
+        normal.setFitHeight(alto);
+        normal.setPreserveRatio(false);
+        setGraphic(normal);
+        setStyle("-fx-background-color:transparent;-fx-padding:0;");
+        setCursor(Cursor.HAND);
+    }
+
+    public void setHover(String ruta){
         Image nuevaImagen=new Image(getClass().getResourceAsStream(ruta));
         normal=new ImageView(nuevaImagen);
         normal.setFitWidth(ancho);

@@ -13,8 +13,8 @@ public class DadoImage extends Label {
             IMAGENES[i]=new Image(DadoImage.class.getResourceAsStream("/dados/dado"+(i+1)+".png"));
         }
     }
-    private double width = 50;
-    private double height = 50;
+    private double width = 25;
+    private double height = 25;
     private Dado dado;
     private ImageView view;
 

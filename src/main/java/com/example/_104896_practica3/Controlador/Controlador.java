@@ -1,6 +1,7 @@
 package com.example._104896_practica3.Controlador;
 
 import com.example._104896_practica3.Modelo.Estacion;
+import com.example._104896_practica3.Modelo.Estadisticas;
 import com.example._104896_practica3.Modelo.Game;
 
 import java.util.ArrayList;
@@ -49,5 +50,9 @@ public class Controlador {
     public int getEnSistema(){
         System.out.println(""+game.getEnSistema());
         return game.getEnSistema();
+    }
+
+    public Estadisticas getEstadisticas(){
+        return game.getEstadisticas();
     }
 }

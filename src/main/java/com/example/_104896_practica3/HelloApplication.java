@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
         Controlador controlador=new Controlador();
         PantallaPrincipal pantallaPrincipal=new PantallaPrincipal(controlador);
 
-        stage.setScene(new Scene(pantallaPrincipal.getScrollPane(),1500,843));
+        stage.setScene(new Scene(pantallaPrincipal.getAnchorPane(),1500,843));
         stage.show();
     }
 

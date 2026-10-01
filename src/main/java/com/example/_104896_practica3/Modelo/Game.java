@@ -3,11 +3,13 @@ package com.example._104896_practica3.Modelo;
 import java.util.ArrayList;
 
 public class Game {
+    private Estadisticas estadisticas;
     private ArrayList<Estacion> estaciones;
     private int turno;
     private int salidos;
 
     public Game() {
+        estadisticas=new Estadisticas();
         estaciones = new ArrayList<>();
         estaciones.add(new Estacion("1", false));
         for (int i = 2; i < 11; i++) {
@@ -17,6 +19,7 @@ public class Game {
                 nueva.insertarCliente(0);
             }
         }
+        estadisticas.registrarInicial(getEnSistema());
         turno=0;
         salidos=0;
     }
@@ -33,7 +36,7 @@ public class Game {
         ArrayList<Integer> movedDelTurno=new ArrayList<>();
 
         Estacion ultima=estaciones.get(9);
-        moverHaciaSalida(ultima, rolledDelTurno, movedDelTurno);
+        int salieron=moverHaciaSalida(ultima, rolledDelTurno, movedDelTurno);
 
         for (int i=8;i>=1;i--) {
             Estacion origen=estaciones.get(i);
@@ -51,6 +54,7 @@ public class Game {
             movidosPrimera++;
         }
         movedDelTurno.add(0,movidosPrimera);
+        estadisticas.registrarTurno(salieron,getEnSistema(),rolledDelTurno,movedDelTurno);
     }
 
     public void moverDados(Estacion origen, Estacion destino){
@@ -78,23 +82,26 @@ public class Game {
         moved.add(0,movidos);
     }
 
-    private void moverHaciaSalida(Estacion ultima, ArrayList<Integer> rolled, ArrayList<Integer> moved) {
+    private int moverHaciaSalida(Estacion ultima, ArrayList<Integer> rolled, ArrayList<Integer> moved) {
         int aProcesar=ultima.getAProcesar();
         rolled.add(0,aProcesar);
         int salida=0;
         if(aProcesar>ultima.getTamanoFila()) {
             for(int i=0;i<ultima.getTamanoFila();i++){
-                ultima.sacarCliente();
+                Integer turnoEntrada=ultima.sacarCliente();
+                estadisticas.registrarSalida(turno-turnoEntrada);
                 salida++;
             }
         }else{
             for(int i=0;i<aProcesar;i++) {
-                ultima.sacarCliente();
+                Integer turnoEntrada=ultima.sacarCliente();
+                estadisticas.registrarSalida(turno-turnoEntrada);
                 salida++;
             }
         }
         salidos+=salida;
         moved.add(0,salida);
+        return salida;
     }
 
     public ArrayList<Estacion> getEstaciones() {
@@ -102,7 +109,6 @@ public class Game {
     }
 
     public int getTurno(){
-        System.out.println(""+turno);
         return turno;
     }
 
@@ -117,4 +123,9 @@ public class Game {
         }
         return enSistema;
     }
+
+    public Estadisticas getEstadisticas(){
+        return estadisticas;
+    }
+
 }
