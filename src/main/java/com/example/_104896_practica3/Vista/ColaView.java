@@ -1,7 +1,5 @@
 package com.example._104896_practica3.Vista;
 
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 

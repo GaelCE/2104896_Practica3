@@ -16,5 +16,4 @@ public class HelloApplication extends Application {
         stage.setScene(new Scene(pantallaPrincipal.getAnchorPane(),1500,843));
         stage.show();
     }
-
 }

@@ -31,6 +31,10 @@ public class Controlador {
         game.moverDados(estacionOrigen, estacionDestino);
     }
 
+    public void reiniciar(){
+        game=new Game();
+    }
+
     public boolean getMover(){
         return mover;
     }

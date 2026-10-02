@@ -21,6 +21,7 @@ public class PantallaPrincipal {
     private AnchorPane anchorPane;
     private ArrayList<EstacionView> estaciones;
     private ImageButton boton;
+    private ImageButton btnReset;
     private Label lbTurno;
     private Label lbSalidos;
     private Label lbEnSistema;
@@ -29,6 +30,7 @@ public class PantallaPrincipal {
     private HBox barraGraficas;
     private ImageButton botonAbrirCerrar;
     private boolean barraAbierta;
+    private PanelGraficas panelGraficas;
     private static final double RESX=1920.0;
     private static final double RESGAEL=1080.0;
 
@@ -79,6 +81,12 @@ public class PantallaPrincipal {
         dibujarEstaciones();
 
         construirBarraGraficas();
+
+        panelGraficas=new PanelGraficas(controlador);
+        panelGraficas.prefWidthProperty().bind(anchorPane.widthProperty());
+        panelGraficas.prefHeightProperty().bind(anchorPane.heightProperty());
+        anchorPane.getChildren().add(panelGraficas);
+        posicionarEnPane(panelGraficas,0,0);
 
         posicionarEnPane(boton,840/RESX,900/RESGAEL);
         posicionarEnPane(lbTurno,120/RESX,50/RESGAEL);
@@ -158,6 +166,15 @@ public class PantallaPrincipal {
         lbEnSistema.setText("En sistema: "+controlador.getEnSistema());
         if (controlador.getTurno()==20){
             anchorPane.getChildren().remove(boton);
+            if (!anchorPane.getChildren().contains(btnReset)){
+                btnReset=new ImageButton("/recursos/btnReset.png","/recursos/btnReset.png",170,100);
+                btnReset.setOnAction(e->{
+                    controlador.reiniciar();
+                    construirPantallaJuego();
+                });
+                anchorPane.getChildren().add(btnReset);
+                posicionarEnPane(btnReset,840/RESX,900/RESGAEL);
+            }
         }
     }
 
@@ -178,8 +195,13 @@ public class PantallaPrincipal {
         ImageButton btnActivity=new ImageButton("/recursos/btnActivity.png","/recursos/btnActivity.png",200,200);
         ImageButton btnThroughput=new ImageButton("/recursos/btnThroughput.png","/recursos/btnThroughput.png",200,200);
         ImageButton btnEnSistema=new ImageButton("/recursos/btnNumberInSystem.png","/recursos/btnNumberInSystem.png",200,200);
-        ImageButton btnTimeSistema=new ImageButton("/recursos/btnTimeInSystem.png","/recursos/btnTimeInSystem.png",200,200);
-        barraGraficas.getChildren().addAll(btnActivity,btnThroughput,btnEnSistema,btnTimeSistema);
+        ImageButton btnTimeInSystem=new ImageButton("/recursos/btnTimeInSystem.png","/recursos/btnTimeInSystem.png",200,200);
+        barraGraficas.getChildren().addAll(btnActivity,btnThroughput,btnEnSistema,btnTimeInSystem);
+
+        btnThroughput.setOnAction(e->panelGraficas.mostrarThroughput());
+        btnActivity.setOnAction(e->panelGraficas.mostrarActivity());
+        btnTimeInSystem.setOnAction(e->panelGraficas.mostrarTimeInSystem());
+        btnEnSistema.setOnAction(e->panelGraficas.mostrarNumberInSystem());
 
         botonAbrirCerrar=new ImageButton("/recursos/btnFlechaArriba.png","/recursos/btnFlechaArriba.png",60,60);
         botonAbrirCerrar.setOnAction(e->alternarBarra());
@@ -214,8 +236,10 @@ public class PantallaPrincipal {
 
         if (barraAbierta){
             botonAbrirCerrar.setImagen("/recursos/btnFlechaArriba.png");
+            if (btnReset!=null) btnReset.setVisible(true);
         } else {
             botonAbrirCerrar.setImagen("/recursos/btnFlechaAbajo.png");
+            if (btnReset!=null) btnReset.setVisible(false);
         }
         barraAbierta=!barraAbierta;
     }

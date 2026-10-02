@@ -43,15 +43,4 @@ public class ImageButton extends Button {
         setStyle("-fx-background-color:transparent;-fx-padding:0;");
         setCursor(Cursor.HAND);
     }
-
-    public void setHover(String ruta){
-        Image nuevaImagen=new Image(getClass().getResourceAsStream(ruta));
-        normal=new ImageView(nuevaImagen);
-        normal.setFitWidth(ancho);
-        normal.setFitHeight(alto);
-        normal.setPreserveRatio(false);
-        setGraphic(normal);
-        setStyle("-fx-background-color:transparent;-fx-padding:0;");
-        setCursor(Cursor.HAND);
-    }
 }

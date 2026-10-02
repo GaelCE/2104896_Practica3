@@ -37,15 +37,4 @@ public class DadoImage extends Label {
     public String toString(){
         return dado.toString();
     }
-
-    public void setWidthAndHeight(double w, double h){
-        width = w;
-        height = h;
-        view.setFitWidth(w);
-        view.setFitHeight(h);
-    }
-
-    private String obtenerRuta(){
-        return "/dados/dado"+dado.getValor()+".png";
-    }
 }

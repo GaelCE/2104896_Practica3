@@ -7,12 +7,6 @@ public class ColaCircular <T>{
     private  int fin;
     private T[] cola;
 
-    public ColaCircular(){
-        inicio=-1;
-        fin =-1;
-        cola=(T[]) new Object[10];
-    }
-
     public ColaCircular(int capacidad){
         inicio=-1;
         fin =-1;
@@ -55,31 +49,6 @@ public class ColaCircular <T>{
         return dato;
     }
 
-    public ArrayList<T> obtenerCola(){
-        ArrayList<T>auxiliar=new ArrayList<>();
-        if(estaVacia()){
-            System.out.println("Cola vacia");
-            return auxiliar;
-        } else {
-            if (inicio== fin){
-                System.out.println(cola[inicio]);
-                auxiliar.add(cola[inicio]);
-            } else {
-                int indice=inicio;
-                auxiliar.add(cola[inicio]);
-                while (indice!= fin){
-                    if (limite(indice)){
-                        indice=0;
-                    } else {
-                        indice++;
-                    }
-                    auxiliar.add(cola[indice]);
-                }
-            }
-            return auxiliar;
-        }
-    }
-
     public boolean estaVacia(){
         return inicio==-1;
     }
@@ -106,14 +75,6 @@ public class ColaCircular <T>{
 
     public int getEspaciosOcupados(){
         return cola.length-getEspaciosDisponibles();
-    }
-
-    public T verInicio(){
-        if (!estaVacia()){
-            return cola[inicio];
-        } else {
-            return null;
-        }
     }
 
     private void ampliarCola() {

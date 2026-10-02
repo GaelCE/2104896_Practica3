@@ -22,14 +22,6 @@ public class Dado {
         return valor;
     }
 
-    public boolean getSeleccionado(){
-        return seleccionado;
-    }
-
-    public void setSeleccionado(boolean nuevoSeleccionado){
-        seleccionado=nuevoSeleccionado;
-    }
-
     public String toString(){
         return "" + valor;
     }

@@ -36,19 +36,57 @@ public class Estadisticas{
         return tiemposEnSistema;
     }
 
-    public ArrayList<Integer> getSalidosPorTurno(){
-        return salidosPorTurno;
-    }
-
     public ArrayList<Integer> getEnSistemaPorTurno(){
         return enSistemaPorTurno;
     }
 
-    public ArrayList<ArrayList<Integer>> getRolledPorTurno(){
-        return rolledPorTurno;
+    public ArrayList<Integer> getSalidosAcumulados(){
+        ArrayList<Integer> acumulados=new ArrayList<>();
+        int acumulado=0;
+        for (int i=0;i<salidosPorTurno.size();i++){
+            acumulado+=salidosPorTurno.get(i);
+            acumulados.add(acumulado);
+        }
+        return acumulados;
     }
 
-    public ArrayList<ArrayList<Integer>> getMovedPorTurno(){
-        return movedPorTurno;
+    public ArrayList<Integer> getRolledDeEstacion(int indice){
+        ArrayList<Integer> resultado=new ArrayList<>();
+        for (ArrayList<Integer> turno : rolledPorTurno){
+            resultado.add(turno.get(indice));
+        }
+        return resultado;
+    }
+
+    public ArrayList<Integer> getMovedDeEstacion(int indice){
+        ArrayList<Integer> resultado=new ArrayList<>();
+        for (ArrayList<Integer> turno : movedPorTurno){
+            resultado.add(turno.get(indice));
+        }
+        return resultado;
+    }
+
+    public ArrayList<Double> getRolledPromedio(){
+        ArrayList<Double> resultado=new ArrayList<>();
+        for (ArrayList<Integer> turno : rolledPorTurno){
+            int suma=0;
+            for (int valor : turno){
+                suma+=valor;
+            }
+            resultado.add(suma/10.0);
+        }
+        return resultado;
+    }
+
+    public ArrayList<Double> getMovedPromedio(){
+        ArrayList<Double> resultado=new ArrayList<>();
+        for (ArrayList<Integer> turno : movedPorTurno){
+            int suma=0;
+            for (int valor : turno){
+                suma+=valor;
+            }
+            resultado.add(suma/10.0);
+        }
+        return resultado;
     }
 }

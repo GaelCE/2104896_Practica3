@@ -40,10 +40,6 @@ public class Estacion {
         return suma;
     }
 
-    public int getTamanoCola(){
-        return colaCircular.getEspaciosOcupados();
-    }
-
     public int getTamanoFila(){
         if (colaCircular==null){
             return 0;
@@ -68,9 +64,5 @@ public class Estacion {
 
     public ArrayList<Dado>getDados(){
         return dados;
-    }
-
-    public String getNombre(){
-        return nombre;
     }
 }
